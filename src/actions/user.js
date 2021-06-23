@@ -121,3 +121,32 @@ export const eliminarUsuario = usuario => {
         }
     }
 }
+
+export const estadoUsuario = (usuario, estado) => {
+    if (estado === 'Activo') {
+        estado = 'Inactivo';
+    } else {
+        estado = 'Activo';
+    }
+    return async dispatch => {
+        try {
+            const resp = await fetchToken(`user/updateEstadoUser/${ usuario }`, { estado }, 'PUT');
+            const body = await resp.json();
+    
+            if (body.ok) {
+                dispatch({
+                    type: types.userEstado,
+                    payload: {
+                        usuario, estado
+                    }
+                })
+
+                Swal.fire('Bien', body.msg, 'success')
+            } else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    }
+}

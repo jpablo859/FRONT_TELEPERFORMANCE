@@ -31,6 +31,7 @@ export const ListUsersScreen = () => {
                                     <th>Cargo</th>
                                     <th>Salario</th>
                                     <th>Fecha ingreso</th>
+                                    <th>Estado</th>
                                     <th>Opción</th>
                                 </tr>
                             </thead>

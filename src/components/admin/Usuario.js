@@ -3,9 +3,17 @@ import { useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
 import { dateYMD } from '../../helpers/dateFormat';
 import Swal from 'sweetalert2';
-import { eliminarUsuario } from '../../actions/user';
+import { eliminarUsuario, estadoUsuario } from '../../actions/user';
 
-export const Usuario = ({values: {_id, user, nombre, apellido, cargo, salario, fechaIngreso}}) => {
+export const Usuario = ({values: {_id, user, nombre, apellido, cargo, salario, fechaIngreso, estado}}) => {
+
+    let btnEstado;
+
+    if (estado === 'Activo') {
+        btnEstado = 'Inactivar'
+    } else {
+        btnEstado = 'Activar';
+    }
 
     const dispatch = useDispatch();
 
@@ -26,6 +34,10 @@ export const Usuario = ({values: {_id, user, nombre, apellido, cargo, salario, f
         })
     }
 
+    const fnEstadoUsuario = () => {
+        dispatch(estadoUsuario(_id, estado));
+    }
+
     return (
         <tr>
             <td>{ user }</td>
@@ -34,6 +46,7 @@ export const Usuario = ({values: {_id, user, nombre, apellido, cargo, salario, f
             <td>{ cargo }</td>
             <td>{ salario }</td>
             <td>{ dateYMD(fechaIngreso) }</td>
+            <td>{ estado }</td>
             <td>
                 <Link
                     className="btn btn-warning btn-sm me-1"
@@ -41,12 +54,18 @@ export const Usuario = ({values: {_id, user, nombre, apellido, cargo, salario, f
                 >
                     Editar
                 </Link>
-                <Link 
-                    className="btn btn-danger btn-sm"
+                <button 
+                    className="btn btn-danger btn-sm me-1"
                     onClick={fnEliminarUsuario}
                 >
                     Eliminar
-                </Link>
+                </button>
+                <button 
+                    className="btn btn-info btn-sm"
+                    onClick={fnEstadoUsuario}
+                >
+                    { btnEstado }
+                </button>
             </td>
         </tr>
     )

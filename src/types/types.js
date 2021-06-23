@@ -14,5 +14,6 @@ export const types = {
     userRegister: '[user] Registrar Usuario',
     userUpdate: '[user] Actualizar Usuario',
     userDelete: '[user] Eliminar Usuario',
+    userEstado: '[user] Actializar Estado Usuario',
     
 }
