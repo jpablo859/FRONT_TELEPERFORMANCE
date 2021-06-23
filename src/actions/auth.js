@@ -3,31 +3,15 @@ import { fetchSinToken, fetchToken } from "../helpers/fetch";
 import { types } from "../types/types";
 
 
-export const authStartLogin = (email, password) => {
+export const authStartLogin = (user, password) => {
     return async (dispatch) => {
-        const response = await fetchSinToken('auth/login', {email, password}, 'POST');
+        const response = await fetchSinToken('user/login', { user, password }, 'POST');
         const body = await response.json();
+
+        console.log(body)
         
         if(body.ok) {
             localStorage.setItem('token', body.token);
-            localStorage.setItem('token-init-date', new Date().getTime());
-     
-            dispatch(login(body.user))
-
-        } else {
-            Swal.fire('Error', body.msg, 'error')
-        }
-    }
-}
-
-export const authStartRegister = (email, password, name) => {
-    return async (dispatch) => {
-        const response = await fetchSinToken('auth/new', {email, password, name}, 'POST');
-        const body = await response.json();
-        
-        if(body.ok) {
-            localStorage.setItem('token', body.token);
-            localStorage.setItem('token-init-date', new Date().getTime());
      
             dispatch(login(body.user))
 
@@ -39,13 +23,13 @@ export const authStartRegister = (email, password, name) => {
 
 export const authStartChecking = () => {
     return async (dispatch) => {
-        const response = await fetchToken('auth/renew');
+        const response = await fetchToken('user/renew');
         const body = await response.json();
         
         if(body.ok) {
             localStorage.setItem('token', body.token);
-            localStorage.setItem('token-init-date', new Date().getTime());
 
+            console.log(body.user)
      
             dispatch(login(body.user))
 
